@@ -65,4 +65,8 @@ public class SkinService {
                 .orElseThrow(() -> new RuntimeException("Skin não encontrada com o ID: " + id));
     }
 
+    public Skin updateSkin(Skin skin) {
+        return skinRepository.save(skin);
+    }
+
 }
