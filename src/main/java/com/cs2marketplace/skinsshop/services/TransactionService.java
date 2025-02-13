@@ -52,8 +52,8 @@ public class TransactionService {
         skin.setStatus("VENDIDO");
 
 
-        userService.updateUser(buyer);
-        userService.updateUser(seller);
+        userService.updateUserBalance(buyerId,buyer.getBalance());
+        userService.updateUserBalance(sellerId,seller.getBalance());
         skinService.updateSkin(skin);
 
 

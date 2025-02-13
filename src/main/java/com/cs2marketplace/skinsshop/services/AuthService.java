@@ -35,8 +35,7 @@ import java.util.Optional;
             throw new RuntimeException("Credenciais inválidas");
         }
 
-        // Método para criar e salvar um novo usuário
-        // Método para criar e salvar um novo usuário
+
         public User createUser(String email, String plainPassword) {
             if (userRepository.findByEmail(email).isPresent()) {
                 throw new RuntimeException("Usuário já existe");

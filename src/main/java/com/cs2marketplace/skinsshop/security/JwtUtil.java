@@ -13,11 +13,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = ">?NPq&.GX8-Z5Senay\"=c:kxRtCAvmM\n" +
-            "bx=w}t'`Nm$]/GB3WP:Rc&8D^Sz!frLT\n" +
-            "wRgz/;8KhcmdUP3]FxSs*&H>^B2t$JQX\n" +
-            "K.A)p`]C!e57V'Rh4rv[%9L>Ya#kJU<w\n" +
-            "ad25K=B3eX/j!7z6Vt<p%A-}n.:J+D${";
+    private final String SECRET_KEY = "jjhqj1xc8ee0kxcrpst9065v2qnqwpi4";
     private final long EXPIRATION_TIME = 86400000;
 
     // Obtém a chave secreta para assinar o JWT
