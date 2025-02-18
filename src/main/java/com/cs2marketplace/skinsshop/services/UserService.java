@@ -1,5 +1,6 @@
 package com.cs2marketplace.skinsshop.services;
 
+import com.cs2marketplace.skinsshop.DTO.RegisterRequest;
 import com.cs2marketplace.skinsshop.model.User;
 import com.cs2marketplace.skinsshop.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,13 +15,33 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // ✅ Adicionado corretamente
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder ) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder; // ✅ Inicializando corretamente
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // ✅ Agora a senha será criptografada
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    public User registerUser (RegisterRequest registerRequest) {
+        User user = new User();
+        user.setName(registerRequest.getName());
+        user.setEmail(registerRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword())); // Codifica a senha
+        user.setRole("USER"); // Define a role padrão como "USER"
+        return userRepository.save(user); // Salva o usuário no banco de dados
+    }
+
+    public User changeUserRole(Long userId, String newRoleName) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User  not found"));
+
+        user.setRole(newRoleName);
+
         return userRepository.save(user);
     }
 

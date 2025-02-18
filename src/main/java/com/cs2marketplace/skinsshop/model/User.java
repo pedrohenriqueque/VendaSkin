@@ -1,12 +1,17 @@
 package com.cs2marketplace.skinsshop.model;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "users")
@@ -17,11 +22,17 @@ import java.math.BigDecimal;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Name cannot be empty")
     private String name;
+    @NotBlank(message = "Email cannot be empty")
     private String email;
-    private String password; // Depois implementamos segurança
+    @NotBlank(message = "Password cannot be empty")
+    private String password;
     private BigDecimal balance = BigDecimal.ZERO;
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "role")
+    private String role;
 
     public Long getId() {
         return id;
@@ -69,5 +80,13 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

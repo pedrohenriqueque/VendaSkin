@@ -27,6 +27,12 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
+    @PutMapping("/{id}/role")
+    public ResponseEntity<User> changeUserRole(@PathVariable Long id, @RequestParam String role) {
+        User updatedUser  = userService.changeUserRole(id, role);
+        return ResponseEntity.ok(updatedUser);
+    }
+
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {

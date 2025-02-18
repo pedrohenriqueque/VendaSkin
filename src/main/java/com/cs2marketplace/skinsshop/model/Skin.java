@@ -21,7 +21,6 @@ public class Skin {
     private String imageUrl;
     private String status; // DISPONÍVEL, VENDIDO
     private String tipo; // Rifle, Pistola, Faca, etc.
-
     public Long getId() {
         return id;
     }
