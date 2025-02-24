@@ -27,7 +27,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
-                        .requestMatchers("/api/skins").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN") // pensar no que deve dar pra fazer como ADM.
                         .anyRequest().authenticated()
                 )

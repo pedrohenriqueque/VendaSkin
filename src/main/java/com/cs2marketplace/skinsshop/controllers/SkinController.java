@@ -33,6 +33,10 @@ public class SkinController {
     public Skin getSkinById(@PathVariable long id) {
         return  skinService.getSkinById(id);
     }
+    @GetMapping("/disponivel")
+    public List<Skin> getAllAvailableSkins() {
+        return skinRepository.findByStatus("DISPONIVEL"); // Retorna skins com status "DISPONIVEL"
+    }
     @GetMapping("/fetch")
     public ResponseEntity<Map<String, String>> fetchSkins() {
         String url = "https://api.steamapis.com/image/items/730"; // URL da API
@@ -48,8 +52,9 @@ public class SkinController {
                 skin.setName(entry.getKey());
                 skin.setImageUrl(entry.getValue());
                 skin.setPrice(BigDecimal.valueOf(Math.random()));
-                skin.setRarity("vermelha");
-                skin.setTipo("teste");
+                skin.setStatus("DISPONIVEL");
+                skin.setRarity("NORMAL");
+                skin.setTipo("NENHUM");
                 skinRepository.save(skin);
 
             }

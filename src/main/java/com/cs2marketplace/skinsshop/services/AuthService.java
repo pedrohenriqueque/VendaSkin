@@ -29,7 +29,7 @@ import java.util.Optional;
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
                 if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                    return jwtUtil.generateToken(user.getEmail());
+                    return jwtUtil.generateToken(user.getEmail(),user.getId());
                 }
             }
             throw new RuntimeException("Credenciais inválidas");

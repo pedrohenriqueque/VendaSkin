@@ -49,12 +49,12 @@ public class TransactionService {
         seller.setBalance(seller.getBalance().add(price));
 
 
-        skin.setStatus("VENDIDO");
+
 
 
         userService.updateUserBalance(buyerId,buyer.getBalance());
         userService.updateUserBalance(sellerId,seller.getBalance());
-        skinService.updateSkin(skin);
+        skinService.updateSkinStatus(skinId,"VENDIDO");
 
 
         Transaction transaction = new Transaction();
