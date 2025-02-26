@@ -1,8 +1,12 @@
 package com.cs2marketplace.skinsshop.controllers;
 
+import com.cs2marketplace.skinsshop.model.Item;
 import com.cs2marketplace.skinsshop.model.Skin;
+import com.cs2marketplace.skinsshop.repository.ItemRepository;
 import com.cs2marketplace.skinsshop.repository.SkinRepository;
+import com.cs2marketplace.skinsshop.security.JwtUtil;
 import com.cs2marketplace.skinsshop.services.SkinService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +23,14 @@ import java.util.Map;
 public class SkinController {
     private final SkinService skinService;
     private final SkinRepository skinRepository;
+    private final JwtUtil jwtUtil;
+    private final ItemRepository itemRepository;
 
-    public SkinController(SkinService skinService, SkinRepository skinRepository) {
+    public SkinController(SkinService skinService, SkinRepository skinRepository, JwtUtil jwtUtil, ItemRepository itemRepository) {
         this.skinService = skinService;
         this.skinRepository= skinRepository;
+        this.jwtUtil = jwtUtil;
+        this.itemRepository = itemRepository;
     }
 
     @GetMapping
@@ -52,9 +60,6 @@ public class SkinController {
                 skin.setName(entry.getKey());
                 skin.setImageUrl(entry.getValue());
                 skin.setPrice(BigDecimal.valueOf(Math.random()));
-                skin.setStatus("DISPONIVEL");
-                skin.setRarity("NORMAL");
-                skin.setTipo("NENHUM");
                 skinRepository.save(skin);
 
             }
@@ -92,4 +97,46 @@ public class SkinController {
         Skin updated = skinService.updateSkinPrice(id, newPrice);
         return ResponseEntity.ok(updated);
     }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<Skin> addSkinNew(
+            @RequestParam Long id,
+            @RequestParam BigDecimal price,
+            HttpServletRequest request) {
+
+        // Verifica se o Authorization header está presente
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        // Extrai o token JWT e o userId
+        String jwt = authorizationHeader.substring(7);
+        Long sellerId = jwtUtil.extractUserId(jwt);
+        System.out.println("Usuário autenticado: " + sellerId);
+        if (sellerId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        // Busca o item no banco de dados
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        // Cria a nova Skin associada ao Item
+        Skin skin = new Skin();
+        skin.setName(item.getName());
+        skin.setImageUrl(item.getImageUrl());
+        skin.setPrice(price);
+        skin.setSellerid(sellerId);
+        skin.setStatus("DISPONIVEL");
+        skin.setRarity("NORMAL");
+        skin.setTipo("NENHUM");
+
+        Skin savedSkin = skinService.addSkin(skin);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedSkin);
+    }
+
 }

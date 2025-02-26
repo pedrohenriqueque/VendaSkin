@@ -21,6 +21,8 @@ public class Skin {
     private String imageUrl;
     private String status; // DISPONÍVEL, VENDIDO
     private String tipo; // Rifle, Pistola, Faca, etc.
+    private Long sellerid;
+
     public Long getId() {
         return id;
     }
@@ -75,5 +77,13 @@ public class Skin {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Long getSellerid() {
+        return sellerid;
+    }
+
+    public void setSellerid(Long sellerid) {
+        this.sellerid = sellerid;
     }
 }
