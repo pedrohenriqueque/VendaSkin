@@ -8,10 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("/api/item")
@@ -23,6 +25,11 @@ public class ItemController {
         this.itemRepository = itemRepository;
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Item>> searchItems(@RequestParam String q) {
+        List<Item> items = itemRepository.findByNameContainingIgnoreCase(q);
+        return ResponseEntity.ok(items);
+    }
 
     @GetMapping("/fetch")
     public ResponseEntity<Map<String, String>> fetchItems() {
