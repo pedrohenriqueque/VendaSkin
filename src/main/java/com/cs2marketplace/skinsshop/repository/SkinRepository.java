@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface SkinRepository extends JpaRepository<Skin, Long> {
     List<Skin> findByStatus(String status);
+    List<Skin> findBySellerid(Long sellerid);
 }

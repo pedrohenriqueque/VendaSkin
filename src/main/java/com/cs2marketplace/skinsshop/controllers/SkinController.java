@@ -139,4 +139,10 @@ public class SkinController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedSkin);
     }
 
+        @GetMapping("/seller/{sellerid}")
+        public ResponseEntity<List<Skin>> getSkinsBySeller(@PathVariable Long sellerid) {
+            List<Skin> skins = skinService.findBySellerid(sellerid);
+            return ResponseEntity.ok(skins);
+        }
+
 }

@@ -69,4 +69,8 @@ public class SkinService {
         return skinRepository.save(skin);
     }
 
+    public List<Skin> findBySellerid(Long sellerid) {
+        return skinRepository.findBySellerid(sellerid);
+    }
+
 }
