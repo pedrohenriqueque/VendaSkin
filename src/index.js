@@ -6,7 +6,9 @@ import Login from './components/Login'; // Importando o componente de Login
 import Register from './components/Register'; // Importando o componente de Registro
 import Skins from './components/Skins'; 
 import AddSkins from './components/AddSkins';
+import SellerSkinsPage from './components/SellerSkinPage';
 import { AuthProvider } from './context/AuthContext'; // Importando o AuthProvider
+
 
 // Criando a raiz do aplicativo
 const root = ReactDOM.createRoot(document.getElementById('root')); // Criando a raiz
@@ -18,6 +20,7 @@ root.render(
         <Route path="/register" element={<Register />} /> {/* Usando element para renderizar o componente */}
         <Route path="/skins" element={<Skins />} /> {/* Usando element para renderizar o componente */}
         <Route path="/addskins" element={<AddSkins/>} /> {/* Usando element para renderizar o componente */}
+        <Route path="/seller/:sellerId" element={<SellerSkinsPage />} />
       </Routes>
     </Router>
   </AuthProvider>

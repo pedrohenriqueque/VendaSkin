@@ -54,24 +54,22 @@ export default function SearchItems() {
       setMessage("Preencha o preço!");
       return;
     }
-
+  
     const token = localStorage.getItem("token");
-
+  
     try {
-      const response = await fetch("http://localhost:8080/api/skins/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          id: selectedItem.id,
-          price: parseFloat(price),
-        }),
-      });
-
-      if (!response.ok) throw new Error("Erro ao adicioXnar skin");
-
+      const response = await fetch(
+        `http://localhost:8080/api/skins/add?id=${selectedItem.id}&price=${parseFloat(price)}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (!response.ok) throw new Error("Erro ao adicionar skin");
+  
       setMessage("Skin adicionada com sucesso!");
       setPrice("");
       setSelectedItem(null);
