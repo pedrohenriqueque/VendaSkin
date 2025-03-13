@@ -7,6 +7,7 @@ import Register from './components/Register'; // Importando o componente de Regi
 import Skins from './components/Skins'; 
 import AddSkins from './components/AddSkins';
 import SellerSkinsPage from './components/SellerSkinPage';
+import TransactionsPage from './components/TransactionPage';
 import { AuthProvider } from './context/AuthContext'; // Importando o AuthProvider
 
 
@@ -21,6 +22,8 @@ root.render(
         <Route path="/skins" element={<Skins />} /> {/* Usando element para renderizar o componente */}
         <Route path="/addskins" element={<AddSkins/>} /> {/* Usando element para renderizar o componente */}
         <Route path="/seller/:sellerId" element={<SellerSkinsPage />} />
+        <Route path="/transaction" element={<TransactionsPage />} />
+        <Route path="/transaction/:id" element={<TransactionsPage />} />
       </Routes>
     </Router>
   </AuthProvider>

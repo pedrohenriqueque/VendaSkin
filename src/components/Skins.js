@@ -50,7 +50,6 @@ const Skins = () => {
 
     // Função para realizar a compra
     const handleBuy = async (skinId) => {
-        const sellerId = 1; // ID do vendedor (exemplo)
         const token = localStorage.getItem("token"); // Obtenha o token novamente
         console.log("Token JWT:", token);
 
@@ -60,7 +59,6 @@ const Skins = () => {
                     Authorization: `Bearer ${token}` // Adiciona o token ao cabeçalho Authorization
                 },
                 params: {
-                    sellerId,
                     skinId
                 }
             });
