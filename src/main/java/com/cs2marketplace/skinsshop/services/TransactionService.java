@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 
@@ -30,10 +31,14 @@ public class TransactionService {
     }
 
     @Transactional
-    public Transaction processTransaction(Long buyerId, Long sellerId, Long skinId) {
+    public Transaction processTransaction(Long buyerId, Long skinId) {
         User buyer = userService.findById(buyerId);
-        User seller = userService.findById(sellerId);
         Skin skin = skinService.getSkinById(skinId);
+        Long sellerId =   skin.getSellerid() ;
+        if(buyer.getId().equals(sellerId)) {
+            throw new RuntimeException("Você já é o vendedor");
+        }
+        User seller = userService.findById(sellerId);
 
         if (skin == null || buyer == null || seller == null) {
             throw new RuntimeException("Comprador, vendedor ou skin não encontrados");
@@ -65,5 +70,13 @@ public class TransactionService {
         transaction.setDate(LocalDateTime.now());
 
         return transactionRepository.save(transaction);
+    }
+
+    public List<Transaction> getTransactionsByUserId(Long id) {
+        return transactionRepository.findBySellerIdOrBuyerId(id, id);
+    }
+
+    public List<Transaction> getAllTransactions() {
+        return transactionRepository.findAll();
     }
 }
